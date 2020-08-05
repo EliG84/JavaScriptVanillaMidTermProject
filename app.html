@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/awesomplete.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+    <!-- <script src="./js/bootstrap.min.js"></script> -->
+    <script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=5jxu8UtIe3dNUMq2AQMVtYd94mx0shj_CpfK69iSdsPEGkzbHita4G1necvI8c72ARcbEFXXT7vqEkP1bJKNWXKiSHoaIfQyC09niDdL6gFCtPy15eI0z9PZoSUHKjVW7rLa6EgxHCwGkqN1WNeK1zB7EBxL-SojAp5PL1PWWHRkZyekXLTg_yLplkF5hotGU_kRaPAQT1jdSqkhN4QDnA" charset="UTF-8"></script><script src="./js/underscore-min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/awesomplete.js"></script>
+    <script src="./js/eventsManager.js"></script>
+    <script src="./js/class.js"></script>
+    <script src="./js/restApiServ.js"></script>
+    <script src="./js/personManagerServ.js"></script>
+    <script src="./js/globalVars.js"></script>
+    <title>Forbes Api People Search Project</title>
+</head>
+<body>
+
+              <!-- Light Box  -->
+              <div id="id_dark" class="dark container-fluid center d-none" onclick="closeDark()">
+                <div class="dark_inside text-center d-flex flex-column">
+                <div id="id_darkInside">
+                <!----- light box inside template ---------->
+                <!--------------------------------------->
+                </div>
+                <button type="button" class="close bg-white align-self-end position-fixed" aria-label="Close" onclick="closeDark()"><span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+              </div>
+
+              <button class="btn btn-warning" id="toTop" title="Go to top">Top</button>
+
+
+    <header id="carouselExampleInterval" class="container-md carousel slide" data-ride="carousel">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h1 class="display-4">Forbes Search Engine</h1>
+              <p class="lead">The 1% at your finger tips.</p>
+            </div>
+          </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-interval="3000">
+            <img src="./images/amazon.jpg" class="d-block w-100" alt="amazon">
+          </div>
+          <div class="carousel-item" data-interval="3000">
+            <img src="./images/microsoft.jpg" class="d-block w-100" alt="microsoft">
+          </div>
+          <div class="carousel-item" data-interval="3000">
+            <img src="./images/lvhm.jpg" class="d-block w-100" alt="lvhm">
+          </div>
+        </div>
+      </header>
+      
+      <div class="navbar navbar-light container-md bg-dark pt-3 pb-3 justify-content-around justify-content-md-between">
+            <div class="row col-12 col-md-8 justify-content-center justify-content-md-start align-items-center m-2 mb-md-0">
+                <div class="row col-12 col-md-10 justify-content-around">
+                    <input id="searchFor" class="form-control col-6 col-md-6 awsomeplete" type="text" placeholder="Search all DB or leave blank to reset" list='suggestions' data-placement="tooltip" title="Leave Blank to get all DB">
+                    <datalist id="suggestions">
+                    </datalist>
+                    <div class="col-6 col-md-4">
+                        <select id="searchBy" class="custom-select mr-sm-2 form-control" id="inlineFormCustomSelect" required>
+                          <option selected value="none">Search By</option>
+                          <option value="name">Name</option>
+                          <option value="country">Country</option>
+                          <option value="industries">Industry</option>
+                          <option value="company">Company</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Must choose option.
+                        </div>
+                      </div>
+                      <button id="searchBtn" class="btn btn-dark border mt-3 m-md-0">Search</button>
+                </div>
+            </div>
+            <div class="row col-12 col-md-4 justify-content-between">
+              <div id="numOfResults" class="col-7 m-0 d-flex text-light justify-content-center align-items-center">
+              </div>
+              <div class="form-check col-5">
+                  <input id="enableFilter" class="form-check-input" type="checkbox" value="">
+                  <label class="form-check-label" for="enableFilter" style="color: white;">
+                    Filter Results
+                  </label>
+                </div>
+    
+            </div>
+      </div>
+
+      <div id="filterDiv" class="container-md bg-dark border-top border-light text-light d-flex justify-content-between justify-content-md-around p-0 invisible">
+        <form class="form col-6 col-md-8 d-flex justify-content-md-between justify-content-start m-0 pl-1">
+          <div class="form-check form-check-inline">
+            <input id="filterYoung" class="form-check-input" type="checkbox" value="youngest">
+            <label class="form-check-label">Young(30-)</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input id="filterOld" class="form-check-input" type="checkbox" value="oldest">
+            <label class="form-check-label">Old(80+)</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input id="filterFemale" class="form-check-input" type="checkbox" value="females">
+            <label class="form-check-label">Females</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input id="filterMale" class="form-check-input" type="checkbox" value="males">
+            <label class="form-check-label">Males</label>
+          </div>
+        </form>
+        <select id="orderBy" class="select col-2 m-1">
+          <option value="default">Order By</option>
+          <option value="name">Name A-Z</option>
+          <option value="nameDown">Name Z-A</option>
+          <option value="countryOfCitizenship">Country A-Z</option>
+          <option value="countryOfCitizenshipDown">Country Z-A</option>
+          <option value="estWorthPrev">Networth A-Z</option>
+          <option value="estWorthPrevDown">Networth Z-A</option>
+        </select>
+    </div>
+
+    <!-- Wait for api to load then hide this div -->
+    <div id="wait" class="text-center"> 
+      <h3>Loading API please wait....</h3>
+    </div>
+
+
+    <!-- all api content will be created here -->
+      <div class="container d-flex justify-content-center">
+        <div id="idParent" class="row container-fluid mb-3 text-center justify-content-around"></div>
+      </div>
+</body>
+</html>
